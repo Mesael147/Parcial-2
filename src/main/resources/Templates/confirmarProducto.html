@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Pedido</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-image {
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-body text-center">
+            <h1 class="text-primary mb-4">Confirmar Pedido</h1>
+
+
+            <h3 class="card-title text-secondary" th:text="${producto.name}">Nombre del Producto</h3>
+            <img th:src="${producto.imageUrl}" class="product-image mb-3" alt="Imagen del producto">
+            <p class="card-text text-muted" th:text="${producto.description}">Descripción del producto</p>
+            <p class="text-success fw-bold">Precio: $<span th:text="${producto.price}">0.00</span></p>
+            <p class="text-secondary">Cantidad Disponible: <span th:text="${producto.cantidad}">Cantidad</span></p>
+
+
+            <form th:action="@{/user/pedido/confirmar}" method="post" class="mt-4">
+                <input type="hidden" name="productoId" th:value="${producto.id}">
+                <div class="mb-3">
+                    <label for="cantidad" class="form-label">Cantidad:</label>
+                    <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" th:attr="max=${producto.cantidad}" value="1" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Confirmar Pedido</button>
+            </form>
+
+
+            <a th:href="@{/user/menu}" class="btn btn-outline-danger w-100 mt-3">Cancelar</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

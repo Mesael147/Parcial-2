@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+     
+        .product-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-5">
+
+    <h1 class="text-center text-primary mb-4">Bienvenido, <span th:text="${usuario.nombre}">Usuario</span></h1>
+
+    <h2 class="text-secondary text-center mb-3">Productos Disponibles</h2>
+
+
+    <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
+    <div th:if="${mensaje}" class="alert alert-success text-center" th:text="${mensaje}"></div>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="producto : ${productos}">
+                <td>
+
+                    <img th:src="${producto.imageUrl}" class="product-image" alt="Imagen del producto">
+                </td>
+                <td th:text="${producto.name}"></td>
+                <td th:text="${producto.description}"></td>
+                <td th:text="${producto.price}"></td>
+                <td th:text="${producto.cantidad}"></td>
+                <td>
+                    <form th:action="@{/user/pedido/nuevo}" method="get">
+                        <input type="hidden" name="productoId" th:value="${producto.id}">
+                        <button type="submit" class="btn btn-primary btn-sm" th:disabled="${producto.cantidad <= 0}">
+                            Realizar Pedido
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="text-center mt-4">
+        <a th:href="@{/logout}" class="btn btn-danger">Cerrar Sesión</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
